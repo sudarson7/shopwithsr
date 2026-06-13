@@ -61,10 +61,10 @@ function downloadPDF() {
     }
 
     // 👤 CUSTOMER DETAILS
-    doc.text(`Name: ${cleanText(order.name)}`, 10, 30);
-    doc.text(`Address: ${cleanText(order.address)}`, 10, 40);
-    doc.text(`Phone: ${cleanText(order.phone)}`, 10, 50);
-    doc.text(`Payment: ${cleanText(order.payment)}`, 10, 60);
+  doc.text(`Name: ${cleanText(order.name || "")}`, 10, 30);
+doc.text(`Email: ${cleanText(order.email || "")}`, 10, 40);
+doc.text(`Phone: ${cleanText(order.phone || "")}`, 10, 50);
+doc.text(`Address: ${cleanText(order.address || "")}`, 10, 60);
     doc.text(`Date: ${cleanText(order.date)}`, 10, 70);
 
     // 📦 ITEMS START POSITION
