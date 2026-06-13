@@ -1,35 +1,40 @@
+// 🧾 GET ORDER FROM STORAGE
 let order = JSON.parse(localStorage.getItem("lastOrder"));
 
 let box = document.getElementById("invoiceBox");
 
+// 🔧 CLEAN TEXT FUNCTION (ONLY ONE, SAFE)
+function cleanText(text) {
+    return String(text || "")
+        .replace(/&amp;/g, "and")
+        .replace(/&/g, "and")
+        .replace(/</g, "")
+        .replace(/>/g, "");
+}
+
+// 📄 SHOW INVOICE ON PAGE
 if (!order) {
     box.innerHTML = "<h3>No order found</h3>";
 } else {
 
     let itemsList = "";
 
-    order.items.forEach(i => {
-        itemsList += `${i.name} - ₹${i.price}\n`;
+    (order.items || []).forEach(i => {
+        itemsList += `${cleanText(i.name)} - ₹${i.price}\n`;
     });
 
     box.innerHTML = `
-        <h3>Customer: ${order.name}</h3>
-        <p>Address: ${order.address}</p>
-        <p>Phone: ${order.phone}</p>
-        <p>Payment: ${order.payment}</p>
-        <p>Date: ${order.date}</p>
+        <h3>Customer: ${cleanText(order.name)}</h3>
+        <p>Email: ${cleanText(order.email)}</p>
+        <p>Address: ${cleanText(order.address)}</p>
+        <p>Phone: ${cleanText(order.phone)}</p>
+        <p>Payment: ${cleanText(order.payment)}</p>
+        <p>Date: ${cleanText(order.date)}</p>
+
         <pre>Items:\n${itemsList}</pre>
+
         <h2>Total: ₹${order.total}</h2>
     `;
-}
-
-// 🔧 CLEAN TEXT FUNCTION
-function cleanText(text) {
-    return String(text)
-        .replace(/&amp;/g, "and")
-        .replace(/&/g, "and")
-        .replace(/</g, "")
-        .replace(/>/g, "");
 }
 
 // 📄 DOWNLOAD PDF FUNCTION
@@ -51,29 +56,21 @@ function downloadPDF() {
 
     doc.setFontSize(12);
 
-    // 🔧 CLEAN FUNCTION INSIDE (safe usage)
-    function cleanText(text) {
-        return String(text)
-            .replace(/&amp;/g, "and")
-            .replace(/&/g, "and")
-            .replace(/</g, "")
-            .replace(/>/g, "");
-    }
-
     // 👤 CUSTOMER DETAILS
-  doc.text(`Name: ${cleanText(order.name || "")}`, 10, 30);
-doc.text(`Email: ${cleanText(order.email || "")}`, 10, 40);
-doc.text(`Phone: ${cleanText(order.phone || "")}`, 10, 50);
-doc.text(`Address: ${cleanText(order.address || "")}`, 10, 60);
-    doc.text(`Date: ${cleanText(order.date)}`, 10, 70);
+    doc.text(`Name: ${cleanText(order.name)}`, 10, 30);
+    doc.text(`Email: ${cleanText(order.email)}`, 10, 40);
+    doc.text(`Phone: ${cleanText(order.phone)}`, 10, 50);
+    doc.text(`Address: ${cleanText(order.address)}`, 10, 60);
+    doc.text(`Payment: ${cleanText(order.payment)}`, 10, 70);
+    doc.text(`Date: ${cleanText(order.date)}`, 10, 80);
 
-    // 📦 ITEMS START POSITION
-    let y = 90;
+    // 📦 ITEMS START
+    let y = 100;
 
     doc.text("Items:", 10, y);
     y += 10;
 
-    // 🛒 ITEMS LIST
+    // 🛒 ITEMS LOOP
     (order.items || []).forEach((item, index) => {
         doc.text(
             `${index + 1}. ${cleanText(item.name)} - ₹${item.price}`,
@@ -83,7 +80,7 @@ doc.text(`Address: ${cleanText(order.address || "")}`, 10, 60);
         y += 10;
     });
 
-    // 💰 TOTAL (with spacing)
+    // 💰 TOTAL
     y += 10;
     doc.text(`Total: ₹${order.total}`, 10, y);
 
