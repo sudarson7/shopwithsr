@@ -106,4 +106,5 @@ function placeOrder() {
         "🎉 Order placed successfully via " + payment.toUpperCase();
 
     document.getElementById("totalAmount").innerText = "Total: ₹0";
+    window.location.href = "invoice.html";
 }
