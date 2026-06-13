@@ -3,11 +3,11 @@ let order = JSON.parse(localStorage.getItem("lastOrder"));
 
 let box = document.getElementById("invoiceBox");
 
-// 🔧 CLEAN TEXT FUNCTION (ONLY ONE, SAFE)
 function cleanText(text) {
     return String(text || "")
         .replace(/&amp;/g, "and")
         .replace(/&/g, "and")
+        .replace(/₹/g, "Rs")
         .replace(/</g, "")
         .replace(/>/g, "");
 }
