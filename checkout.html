@@ -7,26 +7,45 @@
 </head>
 <body>
 
-<header>
-    <h1>Checkout</h1>
-    <a href="cart.html">⬅ Back to Cart</a>
-</header>
+<h1>🧾 Checkout</h1>
 
-<div class="checkout-box">
+<h3 id="totalAmount">Total: ₹0</h3>
 
-    <h2>Delivery Details</h2>
+<hr>
 
-    <input id="name" placeholder="Full Name"><br><br>
-    <input id="address" placeholder="Address"><br><br>
-    <input id="phone" placeholder="Phone Number"><br><br>
+<h3>Customer Details</h3>
 
-    <h3 id="totalAmount"></h3>
+<input id="name" placeholder="Name"><br><br>
+<input id="address" placeholder="Address"><br><br>
+<input id="phone" placeholder="Phone"><br><br>
 
-    <button onclick="placeOrder()">Place Order</button>
+<hr>
 
-    <h2 id="msg"></h2>
+<h3>Payment Method</h3>
 
+<label>
+    <input type="radio" name="payment" value="cash" checked>
+    Cash on Delivery
+</label>
+
+<br><br>
+
+<label>
+    <input type="radio" name="payment" value="card">
+    Card Payment
+</label>
+
+<div id="cardBox" style="display:none; margin-top:10px;">
+    <input id="cardNumber" placeholder="Card Number"><br><br>
+    <input id="expiry" placeholder="Expiry (MM/YY)"><br><br>
+    <input id="cvv" placeholder="CVV"><br><br>
 </div>
+
+<br>
+
+<button onclick="placeOrder()">Place Order</button>
+
+<h2 id="msg"></h2>
 
 <script src="js/checkout.js"></script>
 
