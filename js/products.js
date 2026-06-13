@@ -1,4 +1,4 @@
-
+alert("products.js loaded");
 const data = {
     clothing: [
         {
