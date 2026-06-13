@@ -25,37 +25,36 @@ if (!order) {
 }
 
 // 📄 DOWNLOAD PDF FUNCTION
+function cleanText(text) {
+    return String(text)
+        .replace(/&/g, "and")
+        .replace(/</g, "")
+        .replace(/>/g, "");
+}
+
+// 👇 your download function starts here
 function downloadPDF() {
 
     let order = JSON.parse(localStorage.getItem("lastOrder"));
 
-    if (!order) {
-        alert("No invoice found");
-        return;
-    }
-
     const { jsPDF } = window.jspdf;
     let doc = new jsPDF();
 
-    doc.setFontSize(14);
     doc.text("INVOICE", 90, 10);
 
-    doc.text(`Name: ${order.name}`, 10, 30);
-    doc.text(`Address: ${order.address}`, 10, 40);
-    doc.text(`Phone: ${order.phone}`, 10, 50);
-    doc.text(`Payment: ${order.payment}`, 10, 60);
-    doc.text(`Date: ${order.date}`, 10, 70);
+    let y = 80;
 
-    doc.text("Items:", 10, 90);
-
-    let y = 100;
-
-    order.items.forEach(i => {
-        doc.text(`${i.name} - ₹${i.price}`, 10, y);
+    order.items.forEach((item, index) => {
+        doc.text(
+            `${index + 1}. ${cleanText(item.name)} - ₹${item.price}`,
+            10,
+            y
+        );
         y += 10;
     });
 
-    doc.text(`Total: ₹${order.total}`, 10, y + 10);
+    y += 10;
+    doc.text(`Total: ₹${order.total}`, 10, y);
 
     doc.save("invoice.pdf");
 }
