@@ -1,4 +1,3 @@
-// Get last order
 let order = JSON.parse(localStorage.getItem("lastOrder"));
 
 let box = document.getElementById("invoiceBox");
@@ -24,7 +23,7 @@ if (!order) {
     `;
 }
 
-// 📄 DOWNLOAD PDF FUNCTION
+// 🔧 CLEAN TEXT FUNCTION
 function cleanText(text) {
     return String(text)
         .replace(/&/g, "and")
@@ -32,10 +31,15 @@ function cleanText(text) {
         .replace(/>/g, "");
 }
 
-// 👇 your download function starts here
+// 📄 DOWNLOAD PDF FUNCTION
 function downloadPDF() {
 
     let order = JSON.parse(localStorage.getItem("lastOrder"));
+
+    if (!order) {
+        alert("No order found");
+        return;
+    }
 
     const { jsPDF } = window.jspdf;
     let doc = new jsPDF();
@@ -44,7 +48,8 @@ function downloadPDF() {
 
     let y = 80;
 
-    order.items.forEach((item, index) => {
+    // ✔ SAFE LOOP (prevents crash if items missing)
+    (order.items || []).forEach((item, index) => {
         doc.text(
             `${index + 1}. ${cleanText(item.name)} - ₹${item.price}`,
             10,
@@ -53,7 +58,9 @@ function downloadPDF() {
         y += 10;
     });
 
+    // ✔ spacing before total
     y += 10;
+
     doc.text(`Total: ₹${order.total}`, 10, y);
 
     doc.save("invoice.pdf");
