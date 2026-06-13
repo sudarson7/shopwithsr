@@ -1,14 +1,44 @@
-requireLogin();
+// 🔐 LOGIN CHECK
+let user = JSON.parse(localStorage.getItem("loggedUser"));
+
+if (!user) {
+    alert("Please login first");
+    window.location.href = "login.html";
+}
+
+// 🛒 CART
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-let total = 0;
+// 🧮 TOTAL CALCULATION
+function calculateTotalAmount() {
+    let total = 0;
 
-cart.forEach(item => {
-    total += item.price;
+    cart.forEach(item => {
+        total += Number(item.price || 0);
+    });
+
+    return total;
+}
+
+// SHOW TOTAL
+document.getElementById("totalAmount").innerText =
+    "Total: ₹" + calculateTotalAmount();
+
+// 💳 SHOW CARD FIELDS
+let paymentRadios = document.getElementsByName("payment");
+let cardBox = document.getElementById("cardBox");
+
+paymentRadios.forEach(radio => {
+    radio.addEventListener("change", function () {
+        if (this.value === "card") {
+            cardBox.style.display = "block";
+        } else {
+            cardBox.style.display = "none";
+        }
+    });
 });
 
-document.getElementById("totalAmount").innerText = "Total: ₹" + total;
-
+// 🧾 PLACE ORDER
 function placeOrder() {
 
     let name = document.getElementById("name").value;
@@ -22,21 +52,33 @@ function placeOrder() {
         return;
     }
 
-    if (phone.length !== 10) {
+    if (phone.length !== 10 || isNaN(phone)) {
         alert("Invalid phone number");
         return;
     }
-
-    // ❗ CART CHECK
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     if (cart.length === 0) {
         alert("Cart is empty");
         return;
     }
 
-    // 🧾 NOW THIS IS WHERE YOUR CODE GOES ↓↓↓
+    // 💳 CARD VALIDATION
+    if (payment === "card") {
+        let card = document.getElementById("cardNumber").value;
+        let expiry = document.getElementById("expiry").value;
+        let cvv = document.getElementById("cvv").value;
 
+        if (!card || !expiry || !cvv) {
+            alert("Enter complete card details");
+            return;
+        }
+
+        alert("Card payment successful 💳");
+    } else {
+        alert("Cash on Delivery selected 🏠");
+    }
+
+    // 📦 SAVE ORDER
     let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
     let order = {
@@ -55,9 +97,13 @@ function placeOrder() {
     localStorage.setItem("orders", JSON.stringify(orders));
     localStorage.setItem("lastOrder", JSON.stringify(order));
 
-    // 🧹 clear cart after order
+    // 🧹 CLEAR CART
     localStorage.removeItem("cart");
+    cart = [];
 
+    // 🎉 SUCCESS MESSAGE
     document.getElementById("msg").innerText =
         "🎉 Order placed successfully via " + payment.toUpperCase();
+
+    document.getElementById("totalAmount").innerText = "Total: ₹0";
 }
