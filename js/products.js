@@ -1,4 +1,5 @@
 alert("products.js loaded");
+
 const data = {
     clothing: [
         {
@@ -45,54 +46,76 @@ const data = {
         }
     ],
 
-   home: [
-    {
-        id: 7,
-        name: "Refrigerator",
-        price: 24999,
-        img: "image/eref.webp"
-    },
-    {
-        id: 8,
-        name: "Washing Machine",
-        price: 18999,
-        img:"image/whirlpool.jpg"
-    }
-]
+    home: [
+        {
+            id: 7,
+            name: "Refrigerator",
+            price: 24999,
+            img: "image/eref.webp"
+        },
+        {
+            id: 8,
+            name: "Washing Machine",
+            price: 18999,
+            img: "image/whirlpool.jpg"
+        }
+    ]
 };
 
 // Get category from URL
 const url = new URLSearchParams(window.location.search);
 const category = url.get("category");
 
-let container = document.getElementById("productContainer");
+const container = document.getElementById("productContainer");
 
-// Combine all products for cart/wishlist search
-let allProducts = Object.values(data).flat();
+// Combine all products
+const allProducts = Object.values(data).flat();
 
-// Load products
+// Load Products
 function load() {
+
+    if (!data[category]) {
+        container.innerHTML = "<h2>Category not found!</h2>";
+        return;
+    }
+
     container.innerHTML = "";
 
     data[category].forEach(p => {
+
         let div = document.createElement("div");
         div.className = "card";
 
         div.innerHTML = `
-            <img src="${p.img}" style="width:100%; height:180px; object-fit:cover;">
+            <img src="${p.img}"
+                 alt="${p.name}"
+                 style="
+                    width:220px;
+                    height:220px;
+                    object-fit:cover;
+                    display:block;
+                    margin:auto;
+                 ">
+
             <h3>${p.name}</h3>
             <p>₹${p.price}</p>
 
-            <button onclick="addToCart(${p.id})">🛒 Cart</button>
-            <button onclick="addToWishlist(${p.id})">❤️ Wishlist</button>
+            <button onclick="addToCart(${p.id})">
+                🛒 Add to Cart
+            </button>
+
+            <button onclick="addToWishlist(${p.id})">
+                ❤️ Wishlist
+            </button>
         `;
 
         container.appendChild(div);
     });
 }
 
-// Add to cart
+// Add to Cart
 function addToCart(id) {
+
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     let product = allProducts.find(p => p.id === id);
@@ -104,22 +127,34 @@ function addToCart(id) {
     alert("Added to Cart 🛒");
 }
 
-// Add to wishlist
+// Add to Wishlist
 function addToWishlist(id) {
-    let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+    let wishlist =
+        JSON.parse(localStorage.getItem("wishlist")) || [];
 
     let product = allProducts.find(p => p.id === id);
 
-    let exists = wishlist.find(p => p.id === id);
+    let exists =
+        wishlist.find(item => item.id === id);
 
     if (!exists) {
+
         wishlist.push(product);
-        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+
+        localStorage.setItem(
+            "wishlist",
+            JSON.stringify(wishlist)
+        );
+
         alert("Added to Wishlist ❤️");
+
     } else {
+
         alert("Already in Wishlist");
+
     }
 }
 
-// Run on page load
+// Start
 load();
