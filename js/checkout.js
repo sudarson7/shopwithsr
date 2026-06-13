@@ -42,12 +42,13 @@ paymentRadios.forEach(radio => {
 function placeOrder() {
 
     let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
     let address = document.getElementById("address").value;
     let phone = document.getElementById("phone").value;
 
     let payment = document.querySelector('input[name="payment"]:checked').value;
 
-    if (!name || !address || !phone) {
+    if (!name ||!email|| !address || !phone) {
         alert("Please fill all details");
         return;
     }
