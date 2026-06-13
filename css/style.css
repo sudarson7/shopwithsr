@@ -19,6 +19,28 @@ header a {
     text-decoration: none;
 }
 
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+.logo h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+h2 {
+    padding-left: 20px;
+}
+
 .categories {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -32,6 +54,12 @@ header a {
     text-align: center;
     cursor: pointer;
     border-radius: 10px;
+    font-size: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.categories div:hover {
+    transform: translateY(-3px);
 }
 
 .products {
@@ -77,19 +105,4 @@ button {
 
 button:hover {
     background: #1c5ecf;
-}
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.logo img {
-    width: 60px;
-    height: 60px;
-    object-fit: contain;
-}
-
-.logo h1 {
-    margin: 0;
 }
