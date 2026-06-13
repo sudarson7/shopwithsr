@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Wishlist</title>
+</head>
+<body>
+
+<h1>Wishlist ❤️</h1>
+
+<div id="wishContainer"></div>
+
+<script>
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+let container = document.getElementById("wishContainer");
+
+function load() {
+    container.innerHTML = "";
+
+    wishlist.forEach((p, i) => {
+        let div = document.createElement("div");
+
+        div.innerHTML = `
+            <h3>${p.name}</h3>
+            <p>₹${p.price}</p>
+            <button onclick="remove(${i})">Remove</button>
+        `;
+
+        container.appendChild(div);
+    });
+}
+
+function remove(i) {
+    wishlist.splice(i, 1);
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+    load();
+}
+
+load();
+</script>
+
+</body>
+</html>
