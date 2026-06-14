@@ -2,55 +2,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>My Profile - ShopwithSR</title>
+    <title>ShopwithSR</title>
+    <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="css/style.css">
-
-    <style>
-        .profile-container{
-            max-width:700px;
-            margin:40px auto;
-            padding:30px;
-            background:white;
-            border-radius:10px;
-            box-shadow:0 0 10px rgba(0,0,0,0.1);
-        }
-
-        .profile-header{
-            text-align:center;
-            margin-bottom:30px;
-        }
-
-        .profile-pic{
-            width:120px;
-            height:120px;
-            border-radius:50%;
-            object-fit:cover;
-            border:4px solid #2874f0;
-        }
-
-        .profile-info{
-            margin-top:20px;
-        }
-
-        .profile-info p{
-            font-size:18px;
-            margin:15px 0;
-        }
-
-        .btn{
-            display:inline-block;
-            padding:10px 20px;
-            background:#2874f0;
-            color:white;
-            text-decoration:none;
-            border-radius:5px;
-            margin-top:15px;
-        }
-
-        .btn:hover{
-            background:#0b5ed7;
-        }
-    </style>
 </head>
 
 <body>
@@ -65,47 +19,98 @@
     <a href="profile.html">👤 Profile</a>
 </nav>
 
-<div class="profile-container">
+<header class="hero">
 
-    <div class="profile-header">
-        <img src="image/profile.png"
-             alt="Profile"
-             class="profile-pic">
-
-        <h1>My Profile</h1>
+    <div class="logo">
+        <img src="image/logo.png" alt="Logo" width="80">
+        <h1>ShopwithSR</h1>
     </div>
 
-    <div class="profile-info">
-        <p><strong>Name:</strong> <span id="userName"></span></p>
+    <h2>Welcome to ShopwithSR</h2>
 
-        <p><strong>Email:</strong> <span id="userEmail"></span></p>
+    <p>
+        Clothing, Fruits & Vegetables,
+        Mobile Accessories and Home Appliances
+        at the best prices.
+    </p>
 
-        <p><strong>Member Since:</strong> 2026</p>
-
-        <p><strong>Status:</strong> Active User</p>
-    </div>
-
-    <a href="orders.html" class="btn">
-        View Order History
+    <a href="products.html">
+        <button>Shop Now</button>
     </a>
 
-</div>
+</header>
+
+<section>
+
+    <h2>Shop by Category</h2>
+
+    <div class="categories">
+
+        <div onclick="location.href='products.html?category=clothing'">
+            👕
+            <h3>Clothing</h3>
+        </div>
+
+        <div onclick="location.href='products.html?category=vegetables'">
+            🥕
+            <h3>Fruits & Vegetables</h3>
+        </div>
+
+        <div onclick="location.href='products.html?category=mobile'">
+            📱
+            <h3>Mobile Accessories</h3>
+        </div>
+
+        <div onclick="location.href='products.html?category=home'">
+            🏠
+            <h3>Home Appliances</h3>
+        </div>
+
+    </div>
+
+</section>
+
+<section>
+
+    <h2>Why ShopWithSR?</h2>
+
+    <ul>
+        <li>✅ Secure Login System</li>
+        <li>✅ Wishlist Support</li>
+        <li>✅ Cart Management</li>
+        <li>✅ Order Tracking</li>
+        <li>✅ Invoice Generation</li>
+    </ul>
+
+</section>
+
+<footer>
+
+    <p>© 2026 ShopwithSR</p>
+
+    <p>
+        Clothing | Fruits & Vegetables |
+        Mobile Accessories | Home Appliances
+    </p>
+
+</footer>
 
 <script>
 
 let user =
-    JSON.parse(localStorage.getItem("loggedUser"));
+JSON.parse(localStorage.getItem("loggedUser"));
 
-if(!user){
+if(user){
 
-    window.location.href = "login.html";
+    let welcome =
+    document.createElement("p");
+
+    welcome.innerHTML =
+    "👋 Welcome, " + user.name;
+
+    document.querySelector(".hero")
+    .appendChild(welcome);
 }
-
-document.getElementById("userName").innerText =
-    user.name;
-
-document.getElementById("userEmail").innerText =
-    user.email;
 
 </script>
 
