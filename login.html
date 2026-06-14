@@ -2,118 +2,365 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopEase Login</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #2874f0, #6a11cb);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
 }
 
-.container {
-    background: white;
-    padding: 30px;
-    width: 320px;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    text-align: center;
+body{
+    background:#f1f3f6;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-h2 {
-    margin-bottom: 20px;
-    color: #333;
+.container{
+    width:850px;
+    min-height:500px;
+    background:#fff;
+    display:flex;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);
 }
 
-input {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    outline: none;
-    transition: 0.2s;
+.left{
+    width:40%;
+    background:#2874f0;
+    color:white;
+    padding:40px 30px;
 }
 
-input:focus {
-    border-color: #2874f0;
-    box-shadow: 0 0 5px rgba(40,116,240,0.4);
+.left h1{
+    margin-bottom:20px;
+    font-size:32px;
 }
 
-button {
-    width: 100%;
-    padding: 12px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 8px;
-    background: #2874f0;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
+.left p{
+    line-height:1.8;
+    font-size:16px;
 }
 
-button:hover {
-    background: #0b5ed7;
+.right{
+    width:60%;
+    padding:40px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-.register {
-    margin-top: 15px;
-    font-size: 14px;
-    color: #555;
+.form-box{
+    width:100%;
 }
 
-.register a {
-    color: #2874f0;
-    text-decoration: none;
+.form-box h2{
+    margin-bottom:20px;
+    color:#333;
 }
+
+.input-group{
+    position:relative;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:1px solid #ccc;
+    border-radius:6px;
+    outline:none;
+}
+
+input:focus{
+    border-color:#2874f0;
+}
+
+.show-pass{
+    position:absolute;
+    right:15px;
+    top:23px;
+    cursor:pointer;
+    font-size:13px;
+    color:#2874f0;
+}
+
+.options{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:10px;
+    font-size:14px;
+}
+
+.options a{
+    color:#2874f0;
+    text-decoration:none;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    margin-top:20px;
+    border:none;
+    border-radius:6px;
+    background:#fb641b;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#e85d04;
+}
+
+.link{
+    text-align:center;
+    margin-top:15px;
+}
+
+.link a{
+    color:#2874f0;
+    cursor:pointer;
+    text-decoration:none;
+}
+
+#registerForm{
+    display:none;
+}
+
+@media(max-width:768px){
+
+.container{
+    width:95%;
+    flex-direction:column;
+}
+
+.left,
+.right{
+    width:100%;
+}
+
+.left{
+    text-align:center;
+}
+
+}
+
 </style>
-
 </head>
 <body>
 
 <div class="container">
 
-    <h2>Login</h2>
+<div class="left">
+    <h1>Welcome Back!</h1>
+    <p>
+        Login to access your Cart,
+        Wishlist, Orders and exclusive offers.
+    </p>
+</div>
 
-    <input type="email" id="email" placeholder="Enter Email">
-    <input type="password" id="password" placeholder="Enter Password">
+<div class="right">
 
-    <button onclick="login()">Login</button>
+    <!-- LOGIN -->
 
-    <div class="register">
-        Don't have an account? <a href="#" onclick="showRegister()">Register</a>
+    <div class="form-box" id="loginForm">
+
+        <h2>Login</h2>
+
+        <input type="email"
+               id="loginEmail"
+               placeholder="Enter Email">
+
+        <div class="input-group">
+            <input type="password"
+                   id="loginPassword"
+                   placeholder="Enter Password">
+
+            <span class="show-pass"
+                  onclick="togglePassword('loginPassword')">
+                  Show
+            </span>
+        </div>
+
+        <div class="options">
+
+            <label>
+                <input type="checkbox">
+                Remember Me
+            </label>
+
+            <a href="#">Forgot Password?</a>
+
+        </div>
+
+        <button onclick="login()">
+            Login
+        </button>
+
+        <div class="link">
+            New User?
+            <a onclick="showRegister()">
+                Create Account
+            </a>
+        </div>
+
+    </div>
+
+    <!-- REGISTER -->
+
+    <div class="form-box" id="registerForm">
+
+        <h2>Create Account</h2>
+
+        <input type="text"
+               id="name"
+               placeholder="Full Name">
+
+        <input type="email"
+               id="regEmail"
+               placeholder="Email Address">
+
+        <div class="input-group">
+            <input type="password"
+                   id="regPassword"
+                   placeholder="Password">
+
+            <span class="show-pass"
+                  onclick="togglePassword('regPassword')">
+                  Show
+            </span>
+        </div>
+
+        <button onclick="register()">
+            Register
+        </button>
+
+        <div class="link">
+            Already have an account?
+            <a onclick="showLogin()">
+                Login
+            </a>
+        </div>
+
     </div>
 
 </div>
+</div>
 
 <script>
-function login() {
-    let email = document.getElementById("email").value;
-    let pass = document.getElementById("password").value;
 
-    let user = JSON.parse(localStorage.getItem("user"));
+function showRegister(){
 
-    if (!email || !pass) {
+    document.getElementById("loginForm").style.display="none";
+    document.getElementById("registerForm").style.display="block";
+}
+
+function showLogin(){
+
+    document.getElementById("registerForm").style.display="none";
+    document.getElementById("loginForm").style.display="block";
+}
+
+function togglePassword(id){
+
+    let field=document.getElementById(id);
+
+    if(field.type==="password"){
+        field.type="text";
+    }
+    else{
+        field.type="password";
+    }
+}
+
+function register(){
+
+    let name=document.getElementById("name").value.trim();
+    let email=document.getElementById("regEmail").value.trim();
+    let password=document.getElementById("regPassword").value.trim();
+
+    if(!name || !email || !password){
+
+        alert("Please fill all fields");
+        return;
+    }
+
+    let emailPattern=/^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+    if(!email.match(emailPattern)){
+
+        alert("Enter valid email");
+        return;
+    }
+
+    if(password.length<6){
+
+        alert("Password must be at least 6 characters");
+        return;
+    }
+
+    let user={
+        name:name,
+        email:email,
+        password:password
+    };
+
+    localStorage.setItem("user",
+        JSON.stringify(user));
+
+    alert("Registration Successful");
+
+    showLogin();
+}
+
+function login(){
+
+    let email=
+    document.getElementById("loginEmail").value;
+
+    let password=
+    document.getElementById("loginPassword").value;
+
+    let user=
+    JSON.parse(localStorage.getItem("user"));
+
+    if(!email || !password){
+
         alert("Fill all fields");
         return;
     }
 
-    if (user && user.email === email && user.password === pass) {
-        localStorage.setItem("loggedUser", JSON.stringify(user));
-        alert("Login successful");
-        window.location.href = "products.html";
-    } else {
-        alert("Invalid credentials");
+    if(user &&
+       user.email===email &&
+       user.password===password){
+
+        localStorage.setItem(
+            "loggedUser",
+            JSON.stringify(user)
+        );
+
+        alert(
+          "Welcome " + user.name + "!"
+        );
+
+        window.location.href="products.html";
+    }
+
+    else{
+
+        alert("Invalid Email or Password");
     }
 }
 
-function showRegister() {
-    alert("Create a simple register page or I can build it for you next 👍");
-}
 </script>
 
 </body>
