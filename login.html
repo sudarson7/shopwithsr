@@ -320,14 +320,24 @@ function register(){
         return;
     }
 
-    let user={
-        name:name,
-        email:email,
-        password:password
-    };
+   let existingUser =
+    JSON.parse(localStorage.getItem("user"));
 
-    localStorage.setItem("user",
-        JSON.stringify(user));
+if(existingUser &&
+   existingUser.email === email){
+
+    alert("Email already registered");
+    return;
+}
+
+let user = {
+    name:name,
+    email:email,
+    password:password
+};
+
+localStorage.setItem("user",
+    JSON.stringify(user));
 
     alert("Registration Successful");
 
