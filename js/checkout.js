@@ -43,6 +43,7 @@ function placeOrder() {
 
     let name = document.getElementById("name").value;
     let email = document.getElementById("email").value;
+    console.log("Email entered",email);
     let address = document.getElementById("address").value;
     let phone = document.getElementById("phone").value;
 
