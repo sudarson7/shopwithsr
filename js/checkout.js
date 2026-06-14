@@ -85,6 +85,7 @@ function placeOrder() {
     let order = {
         id: Date.now(),
         name,
+        email,
         address,
         phone,
         items: cart,
