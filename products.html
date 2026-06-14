@@ -9,6 +9,11 @@
     <a href="checkout.html">Checkout</a>
     <a href="profile.html">👤 Profile</a>
 </nav>
+    <header>
+    <h1>Products</h1>
+    <a href="cart.html">Cart</a>
+    <button onclick="logout()">Logout</button>
+</header>
     <meta charset="UTF-8">
     <title>Products</title>
     <link rel="stylesheet" href="css/style.css">
@@ -23,6 +28,36 @@
 <div id="productContainer" class="products"></div>
 
 <script src="js/products.js"></script>
+<script>
+    <script>
 
+let user =
+    localStorage.getItem("loggedUser") ||
+    sessionStorage.getItem("loggedUser");
+
+if(!user){
+
+    window.location.href = "login.html";
+}
+
+function logout(){
+
+    localStorage.removeItem("loggedUser");
+    sessionStorage.removeItem("loggedUser");
+
+    window.location.href = "login.html";
+}
+
+</script>
+
+function logout(){
+
+    localStorage.removeItem("loggedUser");
+    sessionStorage.removeItem("loggedUser");
+
+    window.location.href = "login.html";
+}
+
+</script>
 </body>
 </html>
