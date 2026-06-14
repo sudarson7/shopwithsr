@@ -1,121 +1,118 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <nav>
-    <a href="index.html">Home</a>
-    <a href="products.html">Products</a>
-    <a href="cart.html">Cart</a>
-    <a href="wishlist.html">Wishlist</a>
-    <a href="checkout.html">Checkout</a>
-    <a href="profile.html">👤 Profile</a>
-</nav>
-    <meta charset="UTF-8">
-    <title>Login</title>
+<meta charset="UTF-8">
+<title>Login</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #2874f0, #6a11cb);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background: white;
+    padding: 30px;
+    width: 320px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.2s;
+}
+
+input:focus {
+    border-color: #2874f0;
+    box-shadow: 0 0 5px rgba(40,116,240,0.4);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #2874f0;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0b5ed7;
+}
+
+.register {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #555;
+}
+
+.register a {
+    color: #2874f0;
+    text-decoration: none;
+}
+</style>
+
 </head>
 <body>
 
-<h2>Login</h2>
+<div class="container">
 
-<input id="email" type="email" placeholder="Enter Gmail">
-<br><br>
+    <h2>Login</h2>
 
-<input id="pass" type="password" placeholder="Password">
-<br><br>
+    <input type="email" id="email" placeholder="Enter Email">
+    <input type="password" id="password" placeholder="Enter Password">
 
-<button onclick="login()">Login</button>
+    <button onclick="login()">Login</button>
 
-<hr>
+    <div class="register">
+        Don't have an account? <a href="#" onclick="showRegister()">Register</a>
+    </div>
 
-<h2>Register</h2>
-
-<input id="nameR" placeholder="Name">
-<br><br>
-
-<input id="emailR" type="email" placeholder="Enter Gmail">
-<br><br>
-
-<input id="passR" type="password" placeholder="Password">
-<br><br>
-
-<button onclick="register()">Register</button>
+</div>
 
 <script>
-function register() {
-    let name = document.getElementById("nameR").value.trim();
-    let email = document.getElementById("emailR").value.trim();
-    let password = document.getElementById("passR").value;
-
-    if (name === "" || email === "" || password === "") {
-        alert("Please fill all fields");
-        return;
-    }
-
-    let gmailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-
-    if (!gmailPattern.test(email)) {
-        alert("Please enter a valid Gmail address");
-        return;
-    }
-
-    if (password.length < 6) {
-        alert("Password must be at least 6 characters");
-        return;
-    }
-
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-
-    let exists = users.find(u => u.email === email);
-
-    if (exists) {
-        alert("User already exists");
-        return;
-    }
-
-    users.push({
-        name: name,
-        email: email,
-        password: password
-    });
-
-    localStorage.setItem("users", JSON.stringify(users));
-
-    alert("Registration Successful");
-
-    document.getElementById("nameR").value = "";
-    document.getElementById("emailR").value = "";
-    document.getElementById("passR").value = "";
-}
-
 function login() {
-    let email = document.getElementById("email").value.trim();
-    let password = document.getElementById("pass").value;
+    let email = document.getElementById("email").value;
+    let pass = document.getElementById("password").value;
 
-    if (email === "" || password === "") {
-        alert("Please enter email and password");
+    let user = JSON.parse(localStorage.getItem("user"));
+
+    if (!email || !pass) {
+        alert("Fill all fields");
         return;
     }
 
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-
-    let user = users.find(
-        u => u.email === email && u.password === password
-    );
-
-    if (!user) {
-        alert("Invalid Email or Password");
-        return;
+    if (user && user.email === email && user.password === pass) {
+        localStorage.setItem("loggedUser", JSON.stringify(user));
+        alert("Login successful");
+        window.location.href = "products.html";
+    } else {
+        alert("Invalid credentials");
     }
-
-    localStorage.setItem("loggedUser", JSON.stringify(user));
-
-    alert("Login Successful");
-
-    window.location.replace("index.html");
 }
 
-function logout() {
-    localStorage.removeItem("loggedUser");
-    window.location.replace("login.html");
+function showRegister() {
+    alert("Create a simple register page or I can build it for you next 👍");
 }
 </script>
 
