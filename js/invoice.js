@@ -72,17 +72,14 @@ function downloadPDF() {
 
     // 🛒 ITEMS LOOP
     (order.items || []).forEach((item, index) => {
-        doc.text(
-            `${index + 1}. ${cleanText(item.name)} - ${item.price}`,
+        doc.text(`${index + 1}. ${cleanText(item.name)} - ${item.price}`,
             10,
             y
         );
         y += 10;
     });
-
-    // 💰 TOTAL
     y += 10;
-    doc.text(`Total: Rs${order.total}`, 10, y);
+        doc.text(`Total: Rs${order.total}`, 10, y);
 
     // 💾 DOWNLOAD
     doc.save("invoice.pdf");
