@@ -83,14 +83,7 @@ input:focus{
     border-color:#2874f0;
 }
 
-.show-pass{
-    position:absolute;
-    right:15px;
-    top:23px;
-    cursor:pointer;
-    font-size:13px;
-    color:#2874f0;
-}
+
 
 .options{
     display:flex;
@@ -185,10 +178,7 @@ button:hover{
                    id="loginPassword"
                    placeholder="Enter Password">
 
-            <span class="show-pass"
-                  onclick="togglePassword('loginPassword')">
-                  Show
-            </span>
+        
         </div>
 
         <div class="options">
@@ -233,11 +223,6 @@ button:hover{
             <input type="password"
                    id="regPassword"
                    placeholder="Password">
-
-            <span class="show-pass"
-                  onclick="togglePassword('regPassword')">
-                  Show
-            </span>
         </div>
 
         <button onclick="register()">
