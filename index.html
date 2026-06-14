@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>ShopwithSR</title>
+
     <link rel="icon" href="image/logo.png">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -17,6 +18,7 @@
     <a href="checkout.html">Checkout</a>
     <a href="orders.html">📦 Orders</a>
     <a href="profile.html">👤 Profile</a>
+    <a href="#" onclick="logout()">🚪 Logout</a>
 </nav>
 
 <header class="hero">
@@ -26,7 +28,7 @@
         <h1>ShopwithSR</h1>
     </div>
 
-    <h2>Welcome to ShopwithSR</h2>
+    <h2 id="welcomeText">Welcome to ShopwithSR</h2>
 
     <p>
         Clothing, Fruits & Vegetables,
@@ -47,22 +49,22 @@
     <div class="categories">
 
         <div onclick="location.href='products.html?category=clothing'">
-            👕
+            <span class="cat-icon">👕</span>
             <h3>Clothing</h3>
         </div>
 
         <div onclick="location.href='products.html?category=vegetables'">
-            🥕
+            <span class="cat-icon">🥕</span>
             <h3>Fruits & Vegetables</h3>
         </div>
 
         <div onclick="location.href='products.html?category=mobile'">
-            📱
+            <span class="cat-icon">📱</span>
             <h3>Mobile Accessories</h3>
         </div>
 
         <div onclick="location.href='products.html?category=home'">
-            🏠
+            <span class="cat-icon">🏠</span>
             <h3>Home Appliances</h3>
         </div>
 
@@ -89,8 +91,10 @@
     <p>© 2026 ShopwithSR</p>
 
     <p>
-        Clothing | Fruits & Vegetables |
-        Mobile Accessories | Home Appliances
+        Clothing |
+        Fruits & Vegetables |
+        Mobile Accessories |
+        Home Appliances
     </p>
 
 </footer>
@@ -102,14 +106,18 @@ JSON.parse(localStorage.getItem("loggedUser"));
 
 if(user){
 
-    let welcome =
-    document.createElement("p");
+    document.getElementById("welcomeText").innerHTML =
+        "Welcome, " + user.name + " 👋";
+}
 
-    welcome.innerHTML =
-    "👋 Welcome, " + user.name;
+function logout(){
 
-    document.querySelector(".hero")
-    .appendChild(welcome);
+    localStorage.removeItem("loggedUser");
+    sessionStorage.removeItem("loggedUser");
+
+    alert("Logged Out Successfully");
+
+    window.location.href = "login.html";
 }
 
 </script>
