@@ -1,26 +1,188 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <nav>
-    <a href="index.html">Home</a>
-    <a href="products.html">Products</a>
-    <a href="cart.html">Cart</a>
-    <a href="wishlist.html">Wishlist</a>
-    <a href="checkout.html">Checkout</a>
-    <a href="profile.html">👤 Profile</a>
-</nav>
-    <meta charset="UTF-8">
-    <title>Products</title>
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopwithSR - Products</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+
+body{
+    margin:0;
+    font-family:Segoe UI,sans-serif;
+    background:#f1f3f6;
+}
+
+.navbar{
+    background:#2874f0;
+    color:white;
+    padding:15px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    position:sticky;
+    top:0;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:bold;
+}
+
+.search-box{
+    flex:1;
+    max-width:500px;
+}
+
+.search-box input{
+    width:100%;
+    padding:10px;
+    border:none;
+    border-radius:4px;
+}
+
+.nav-links a{
+    color:white;
+    text-decoration:none;
+    margin-left:15px;
+    font-weight:bold;
+}
+
+.banner{
+    width:100%;
+    background:white;
+    text-align:center;
+    padding:20px;
+    margin-bottom:10px;
+}
+
+.banner h2{
+    color:#2874f0;
+}
+
+.categories{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+    background:white;
+    padding:15px;
+    margin-bottom:15px;
+}
+
+.categories button{
+    border:none;
+    padding:10px 15px;
+    border-radius:20px;
+    cursor:pointer;
+    background:#e8f0fe;
+}
+
+.products{
+    padding:20px;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    background:#2874f0;
+    color:white;
+    margin-top:30px;
+}
+
+@media(max-width:768px){
+
+.navbar{
+    flex-direction:column;
+}
+
+.nav-links{
+    text-align:center;
+}
+
+}
+
+</style>
 </head>
+
 <body>
 
-<header>
-    <h1>Products</h1>
-    <a href="cart.html">Cart</a>
+<header class="navbar">
+
+    <div class="logo">
+        🛒 ShopwithSR
+    </div>
+
+    <div class="search-box">
+        <input
+            type="text"
+            id="search"
+            placeholder="Search for products..."
+            onkeyup="searchProducts()">
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="wishlist.html">❤️ Wishlist</a>
+        <a href="cart.html">🛒 Cart</a>
+        <a href="checkout.html">Checkout</a>
+        <a href="profile.html">👤 Profile</a>
+    </div>
+
 </header>
 
+<section class="banner">
+    <h2>Big Shopping Sale 🎉</h2>
+    <p>Up to 70% OFF on Electronics, Fashion and Home Essentials</p>
+</section>
+
+<section class="categories">
+    <button>📱 Mobiles</button>
+    <button>💻 Laptops</button>
+    <button>👕 Fashion</button>
+    <button>📚 Books</button>
+    <button>🏠 Home</button>
+    <button>🎧 Electronics</button>
+</section>
+
 <div id="productContainer" class="products"></div>
+
+<footer>
+    © 2026 ShopwithSR | All Rights Reserved
+</footer>
+
+<script>
+
+function searchProducts(){
+
+    let input =
+    document.getElementById("search")
+    .value.toLowerCase();
+
+    let products =
+    document.querySelectorAll(".product");
+
+    products.forEach(product=>{
+
+        let text =
+        product.innerText.toLowerCase();
+
+        if(text.includes(input)){
+            product.style.display="block";
+        }
+        else{
+            product.style.display="none";
+        }
+
+    });
+
+}
+
+</script>
 
 <script src="js/products.js"></script>
 
