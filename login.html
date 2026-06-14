@@ -198,7 +198,7 @@ button:hover{
                 Remember Me
             </label>
 
-            <a href="#">Forgot Password?</a>
+           <a href="#" onclick="forgotPassword()">Forgot Password?</a>
 
         </div>
 
@@ -279,6 +279,33 @@ function togglePassword(id){
     }
     else{
         field.type="password";
+    }
+}
+    function forgotPassword(){
+
+    let email = prompt("Enter your registered email");
+
+    let user = JSON.parse(localStorage.getItem("user"));
+
+    if(user && user.email === email){
+
+        let newPassword = prompt("Enter new password");
+
+        if(newPassword){
+
+            user.password = newPassword;
+
+            localStorage.setItem(
+                "user",
+                JSON.stringify(user)
+            );
+
+            alert("Password Reset Successful");
+        }
+
+    }else{
+
+        alert("Email not found");
     }
 }
 
