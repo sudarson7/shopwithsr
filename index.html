@@ -1,78 +1,112 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <nav>
+    <meta charset="UTF-8">
+    <title>My Profile - ShopwithSR</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .profile-container{
+            max-width:700px;
+            margin:40px auto;
+            padding:30px;
+            background:white;
+            border-radius:10px;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .profile-header{
+            text-align:center;
+            margin-bottom:30px;
+        }
+
+        .profile-pic{
+            width:120px;
+            height:120px;
+            border-radius:50%;
+            object-fit:cover;
+            border:4px solid #2874f0;
+        }
+
+        .profile-info{
+            margin-top:20px;
+        }
+
+        .profile-info p{
+            font-size:18px;
+            margin:15px 0;
+        }
+
+        .btn{
+            display:inline-block;
+            padding:10px 20px;
+            background:#2874f0;
+            color:white;
+            text-decoration:none;
+            border-radius:5px;
+            margin-top:15px;
+        }
+
+        .btn:hover{
+            background:#0b5ed7;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
     <a href="index.html">Home</a>
     <a href="products.html">Products</a>
     <a href="cart.html">Cart</a>
     <a href="wishlist.html">Wishlist</a>
     <a href="checkout.html">Checkout</a>
+    <a href="orders.html">📦 Orders</a>
     <a href="profile.html">👤 Profile</a>
 </nav>
-    <meta charset="UTF-8">
-    <title>ShopwithSR</title>
 
-    <!-- Browser Tab Logo -->
-    <link rel="icon" type="image/png" href="image/logo.png">
+<div class="profile-container">
 
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+    <div class="profile-header">
+        <img src="image/profile.png"
+             alt="Profile"
+             class="profile-pic">
 
-<header>
-
-    <div class="logo">
-        <img src="image/logo.png" alt="ShopwithSR Logo">
-        <h1>ShopwithSR</h1>
+        <h1>My Profile</h1>
     </div>
 
-    <div>
-        <a href="login.html" id="userLink">Login</a>
-        <a href="wishlist.html">❤️ Wishlist</a>
-        <a href="cart.html">🛒 Cart</a>
+    <div class="profile-info">
+        <p><strong>Name:</strong> <span id="userName"></span></p>
+
+        <p><strong>Email:</strong> <span id="userEmail"></span></p>
+
+        <p><strong>Member Since:</strong> 2026</p>
+
+        <p><strong>Status:</strong> Active User</p>
     </div>
 
-</header>
-
-<h2>Categories</h2>
-
-<div class="categories">
-
-    <div onclick="location.href='products.html?category=clothing'">
-        👕 Clothing
-    </div>
-
-    <div onclick="location.href='products.html?category=vegetables'">
-        🥕 Fruits & Vegetables
-    </div>
-
-    <div onclick="location.href='products.html?category=mobile'">
-        📱 Mobile Accessories
-    </div>
-
-    <div onclick="location.href='products.html?category=home'">
-        🏠 Home Appliances
-    </div>
+    <a href="orders.html" class="btn">
+        View Order History
+    </a>
 
 </div>
 
 <script>
-let user = JSON.parse(localStorage.getItem("loggedUser"));
 
-if (user) {
+let user =
+    JSON.parse(localStorage.getItem("loggedUser"));
 
-    let userLink = document.getElementById("userLink");
+if(!user){
 
-    userLink.innerHTML = "Welcome, " + user.name + " (Logout)";
-
-    userLink.href = "#";
-
-    userLink.onclick = function () {
-        localStorage.removeItem("loggedUser");
-        alert("Logged Out Successfully");
-        window.location.href = "login.html";
-    };
+    window.location.href = "login.html";
 }
+
+document.getElementById("userName").innerText =
+    user.name;
+
+document.getElementById("userEmail").innerText =
+    user.email;
+
 </script>
 
 </body>
