@@ -352,74 +352,26 @@ function login(){
     let password =
     document.getElementById("loginPassword").value.trim();
 
-    let user =
-    JSON.parse(localStorage.getItem("user"));
+    let users =
+    JSON.parse(localStorage.getItem("users")) || [];
 
-    if(!email || !password){
+    let user = users.find(
+        u => u.email === email &&
+             u.password === password
+    );
 
-        alert("Fill all fields");
+    if(!user){
+        alert("Invalid Email or Password");
         return;
     }
 
-    if(user &&
-       user.email === email &&
-       user.password === password){
+    localStorage.setItem(
+        "loggedUser",
+        JSON.stringify(user)
+    );
 
-        if(document.getElementById("rememberMe").checked){
-
-            localStorage.setItem(
-                "loggedUser",
-                JSON.stringify(user)
-            );
-
-            localStorage.setItem(
-                "savedEmail",
-                email
-            );
-
-        }else{
-
-            sessionStorage.setItem(
-                "loggedUser",
-                JSON.stringify(user)
-            );
-
-            localStorage.removeItem(
-                "savedEmail"
-            );
-        }
-
-        alert("Welcome " + user.name + "!");
-
-        window.location.href = "products.html";
-    }
-
-    else{
-
-        alert("Invalid Email or Password");
-    }
-}
-    window.onload = function(){
-
-    let loggedUser =
-        localStorage.getItem("loggedUser");
-
-    if(loggedUser){
-
-        window.location.href = "products.html";
-    }
-
-    let savedEmail =
-        localStorage.getItem("savedEmail");
-
-    if(savedEmail){
-
-        document.getElementById("loginEmail").value =
-            savedEmail;
-
-        document.getElementById("rememberMe").checked =
-            true;
-    }
+    alert("Welcome " + user.name + "!");
+    window.location.href = "products.html";
 }
 </script>
 
