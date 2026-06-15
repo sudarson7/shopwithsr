@@ -66,8 +66,13 @@ function downloadPDF() {
         return;
     }
 
-    const { jsPDF } = window.jspdf;
-    let doc = new jsPDF();
+ if (!window.jspdf) {
+    alert("jsPDF library failed to load");
+    return;
+}
+
+const { jsPDF } = window.jspdf;
+const doc = new jsPDF();
 
     // FIX FONT
     doc.setFont("courier");
