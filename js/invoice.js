@@ -1,6 +1,4 @@
-// 🧾 GET ORDER FROM STORAGE
 let order = JSON.parse(localStorage.getItem("lastOrder"));
-
 let box = document.getElementById("invoiceBox");
 
 function cleanText(text) {
@@ -12,15 +10,24 @@ function cleanText(text) {
         .replace(/>/g, "");
 }
 
-// 📄 SHOW INVOICE ON PAGE
+// 📄 SHOW INVOICE
 if (!order) {
     box.innerHTML = "<h3>No order found</h3>";
 } else {
 
     let itemsList = "";
+    let total = 0;
 
     (order.items || []).forEach(i => {
-        itemsList += `${cleanText(i.name)} - ₹${i.price}\n`;
+
+        let qty = i.qty || 1;
+        let price = Number(i.price) * qty;
+
+        total += price;
+
+        itemsList += `
+${cleanText(i.name)} - ₹${i.price} x ${qty} = ₹${price}
+`;
     });
 
     box.innerHTML = `
@@ -33,11 +40,13 @@ if (!order) {
 
         <pre>Items:\n${itemsList}</pre>
 
-        <h2>Total: ₹${order.total}</h2>
+        <h2>Total: ₹${total}</h2>
+
+        <button onclick="downloadPDF()">⬇ Download PDF</button>
     `;
 }
 
-// 📄 DOWNLOAD PDF FUNCTION
+// 📄 DOWNLOAD PDF
 function downloadPDF() {
 
     let order = JSON.parse(localStorage.getItem("lastOrder"));
@@ -50,37 +59,37 @@ function downloadPDF() {
     const { jsPDF } = window.jspdf;
     let doc = new jsPDF();
 
-    // 🧾 TITLE
     doc.setFontSize(16);
     doc.text("INVOICE", 90, 10);
 
     doc.setFontSize(12);
 
-    // 👤 CUSTOMER DETAILS
-    doc.text(`Name: ${cleanText(order.name)}`, 10, 30);
-    doc.text(`Email: ${cleanText(order.email)}`, 10, 40);
-    doc.text(`Phone: ${cleanText(order.phone)}`, 10, 50);
-    doc.text(`Address: ${cleanText(order.address)}`, 10, 60);
-    doc.text(`Payment: ${cleanText(order.payment)}`, 10, 70);
-    doc.text(`Date: ${cleanText(order.date)}`, 10, 80);
+    doc.text(`Name: ${order.name}`, 10, 30);
+    doc.text(`Email: ${order.email}`, 10, 40);
+    doc.text(`Phone: ${order.phone}`, 10, 50);
+    doc.text(`Date: ${order.date}`, 10, 60);
 
-    // 📦 ITEMS START
-    let y = 100;
+    let y = 80;
+    let total = 0;
 
-    doc.text("Items:", 10, y);
-    y += 10;
+    (order.items || []).forEach((item, i) => {
 
-    // 🛒 ITEMS LOOP
-    (order.items || []).forEach((item, index) => {
-        doc.text(`${index + 1}. ${cleanText(item.name)} - ${item.price}`,
+        let qty = item.qty || 1;
+        let price = Number(item.price) * qty;
+
+        total += price;
+
+        doc.text(
+            `${i + 1}. ${item.name} - ₹${item.price} x ${qty} = ₹${price}`,
             10,
             y
         );
+
         y += 10;
     });
-    y += 10;
-        doc.text(`Total: Rs${order.total}`, 10, y);
 
-    // 💾 DOWNLOAD
+    y += 10;
+    doc.text(`Total: ₹${total}`, 10, y);
+
     doc.save("invoice.pdf");
 }
