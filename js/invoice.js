@@ -52,7 +52,7 @@ ${name} - Rs ${price} x ${qty} = Rs ${subtotal}
 
         <h2>Total: Rs ${total}</h2>
 
-        <button onclick="downloadPDF()">⬇ Download PDF</button>
+ 
     `;
 }
 
