@@ -79,7 +79,7 @@ function downloadPDF() {
         total += price;
 
         doc.text(
-            `${i + 1}. ${item.name} - ₹${item.price} x ${qty} = ₹${price}`,
+            `${i + 1}. ${item.name} - Rs${item.price} x ${qty} = ₹${price}`,
             10,
             y
         );
@@ -88,7 +88,7 @@ function downloadPDF() {
     });
 
     y += 10;
-    doc.text(`Total: ₹${total}`, 10, y);
+    doc.text(`Total: Rs${total}`, 10, y);
 
     doc.save("invoice.pdf");
 }
