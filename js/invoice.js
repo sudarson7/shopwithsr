@@ -79,10 +79,10 @@ function downloadPDF() {
         total += price;
 
         doc.text(
-            `${i + 1}. ${item.name} - Rs${item.price} x ${qty} = ₹${price}`,
-            10,
-            y
-        );
+    `${i + 1}. ${cleanText(item.name)} - Rs ${item.price} x ${qty} = Rs ${price}`,
+    10,
+    y
+);
 
         y += 10;
     });
