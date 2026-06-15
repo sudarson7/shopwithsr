@@ -75,15 +75,14 @@ function addToCart(id) {
 
     if (!product) return;
 
-    let exists = cart.find(item => item.id === id);
+  let exists = cart.find(item => item.id === id);
 
-    if (!exists) {
-        cart.push(product);
-        localStorage.setItem("cart", JSON.stringify(cart));
-        alert("Added to Cart 🛒");
-    } else {
-        alert("Already in Cart");
-    }
+if (!exists) {
+    product.qty = 1;
+    cart.push(product);
+} else {
+    exists.qty += 1;
+}
 }
 
 function addToWishlist(id) {
