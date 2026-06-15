@@ -1,30 +1,30 @@
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-let box = document.getElementById("cartContainer");
-let totalBox = document.getElementById("total");
+let container = document.getElementById("cartContainer");
+let totalText = document.getElementById("total");
 
-function loadCart(){
-    box.innerHTML = "";
+function loadCart() {
+    container.innerHTML = "";
     let total = 0;
 
-    cart.forEach((p,i)=>{
+    cart.forEach((p, i) => {
         total += p.price;
 
         let div = document.createElement("div");
         div.innerHTML = `
             <h3>${p.name}</h3>
             <p>₹${p.price}</p>
-            <button onclick="remove(${i})">Remove</button>
+            <button onclick="removeItem(${i})">Remove</button>
         `;
 
-        box.appendChild(div);
+        container.appendChild(div);
     });
 
-    totalBox.innerText = "Total ₹" + total;
+    totalText.innerText = "Total ₹" + total;
 }
 
-function remove(i){
-    cart.splice(i,1);
+function removeItem(i) {
+    cart.splice(i, 1);
     localStorage.setItem("cart", JSON.stringify(cart));
     loadCart();
 }
