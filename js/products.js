@@ -58,7 +58,6 @@ function load() {
         container.appendChild(div);
     });
 }
-
 function addToCart(id) {
 
     let user = JSON.parse(localStorage.getItem("loggedUser"));
@@ -73,16 +72,25 @@ function addToCart(id) {
 
     let product = allProducts.find(p => p.id === id);
 
-    if (!product) return;
+    if (!product) {
+        alert("Product not found");
+        return;
+    }
 
-  let exists = cart.find(item => item.id === id);
+    let existing = cart.find(item => item.id === id);
 
-if (!exists) {
-    product.qty = 1;
-    cart.push(product);
-} else {
-    exists.qty += 1;
-}
+    if (existing) {
+        existing.qty = (existing.qty || 1) + 1;
+    } else {
+        cart.push({
+            ...product,
+            qty: 1
+        });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    alert("Added to Cart 🛒");
 }
 
 function addToWishlist(id) {
