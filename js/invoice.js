@@ -1,7 +1,7 @@
 let order = JSON.parse(localStorage.getItem("lastOrder"));
 let box = document.getElementById("invoiceBox");
 
-// ---------- HTML CLEAN ----------
+// ---------- CLEAN TEXT ----------
 function cleanText(text) {
     return String(text || "")
         .replace(/&amp;/g, "and")
@@ -42,7 +42,8 @@ ${name} - Rs ${price} x ${qty} = Rs ${subtotal}
         <p>Payment: ${cleanText(order.payment)}</p>
         <p>Date: ${cleanText(order.date)}</p>
 
-        <pre>Items:\n${itemsList}</pre>
+        <h3>Items:</h3>
+        <pre>${itemsList}</pre>
 
         <h2>Total: Rs ${total}</h2>
 
@@ -50,7 +51,7 @@ ${name} - Rs ${price} x ${qty} = Rs ${subtotal}
     `;
 }
 
-// ---------- PDF DOWNLOAD ----------
+// ---------- DOWNLOAD PDF ----------
 function downloadPDF() {
 
     let order = JSON.parse(localStorage.getItem("lastOrder"));
@@ -63,11 +64,11 @@ function downloadPDF() {
     const { jsPDF } = window.jspdf;
     let doc = new jsPDF();
 
-    // FIX FONT (IMPORTANT)
+    // FIX FONT
     doc.setFont("courier");
     doc.setFontSize(11);
 
-    // TITLE
+    // HEADER
     doc.text("INVOICE", 90, 10);
 
     // CUSTOMER INFO
@@ -76,10 +77,13 @@ function downloadPDF() {
     doc.text("Phone: " + (order.phone || ""), 10, 45);
     doc.text("Date: " + (order.date || ""), 10, 55);
 
-    let y = 70;
+    // ITEMS HEADER (FIX YOU ASKED)
+    doc.text("Items:", 10, 65);
+
+    let y = 75;
     let total = 0;
 
-    // ITEMS
+    // ITEMS LOOP
     (order.items || []).forEach((item, i) => {
 
         let name = String(item.name || "").replace(/[^a-zA-Z0-9 ]/g, "");
@@ -89,21 +93,18 @@ function downloadPDF() {
 
         total += subtotal;
 
-        let line =
-            (i + 1) + ". " +
-            name + " - Rs " +
-            price + " x " +
-            qty + " = Rs " +
-            subtotal;
+        doc.text(
+            `${i + 1}. ${name} - Rs ${price} x ${qty} = Rs ${subtotal}`,
+            10,
+            y
+        );
 
-        doc.text(line, 10, y);
         y += 10;
     });
 
-    y += 10;
-
     // TOTAL
-    doc.text("TOTAL: Rs " + total, 10, y);
+    y += 10;
+    doc.text("Total: Rs " + total, 10, y);
 
     doc.save("invoice.pdf");
 }
