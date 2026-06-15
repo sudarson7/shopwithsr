@@ -42,7 +42,6 @@ ${cleanText(i.name)} - ₹${i.price} x ${qty} = ₹${price}
 
         <h2>Total: ₹${total}</h2>
 
-        <button onclick="downloadPDF()">⬇ Download PDF</button>
     `;
 }
 
