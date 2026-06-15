@@ -35,7 +35,6 @@ function login() {
     localStorage.setItem("loggedUser", JSON.stringify(user));
 
     alert("Login successful");
-
     window.location.href = "index.html";
 }
 
