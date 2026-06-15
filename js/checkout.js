@@ -33,7 +33,12 @@ paymentRadios.forEach(radio => {
     });
 });
 
-function placeOrder() {
+function placeOrder(event) {
+
+    if (event) event.preventDefault();
+
+    if (window.__orderPlaced) return;
+    window.__orderPlaced = true;
 
     let name = document.getElementById("name").value;
     let email = document.getElementById("email").value;
@@ -44,32 +49,20 @@ function placeOrder() {
 
     if (!name || !email || !address || !phone) {
         alert("Please fill all details");
+        window.__orderPlaced = false;
         return;
     }
 
     if (phone.length !== 10 || isNaN(phone)) {
         alert("Invalid phone number");
+        window.__orderPlaced = false;
         return;
     }
 
     if (cart.length === 0) {
         alert("Cart is empty");
+        window.__orderPlaced = false;
         return;
-    }
-
-    if (payment === "card") {
-        let card = document.getElementById("cardNumber").value;
-        let expiry = document.getElementById("expiry").value;
-        let cvv = document.getElementById("cvv").value;
-
-        if (!card || !expiry || !cvv) {
-            alert("Enter complete card details");
-            return;
-        }
-
-        alert("Card payment successful 💳");
-    } else {
-        alert("Cash on Delivery selected 🏠");
     }
 
     let orders = JSON.parse(localStorage.getItem("orders")) || [];
@@ -82,7 +75,7 @@ function placeOrder() {
         phone,
         items: cart,
         total: calculateTotalAmount(),
-        payment: payment,
+        payment,
         date: new Date().toLocaleString()
     };
 
@@ -94,9 +87,5 @@ function placeOrder() {
     localStorage.removeItem("cart");
     cart = [];
 
-    document.getElementById("msg").innerText =
-        "🎉 Order placed successfully via " + payment.toUpperCase();
-
-    document.getElementById("totalAmount").innerText = "Total: ₹0";
     window.location.href = "invoice.html";
 }
