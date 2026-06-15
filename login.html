@@ -354,31 +354,34 @@ localStorage.setItem(
 function login(){
 
     let email =
-    document.getElementById("loginEmail").value.trim();
+    document.getElementById("loginEmail").value;
 
     let password =
-    document.getElementById("loginPassword").value.trim();
+    document.getElementById("loginPassword").value;
 
     let users =
     JSON.parse(localStorage.getItem("users")) || [];
 
-    let user = users.find(
-        u => u.email === email &&
-             u.password === password
+    let user = users.find(u =>
+        u.email === email &&
+        u.password === password
     );
 
-    if(!user){
-        alert("Invalid Email or Password");
+    if (!user) {
+        alert("Invalid credentials");
         return;
     }
 
-    localStorage.setItem(
-        "loggedUser",
-        JSON.stringify(user)
-    );
+    localStorage.setItem("loggedUser", JSON.stringify(user));
 
-    alert("Welcome " + user.name + "!");
-    window.location.href = "products.html";
+    alert("Login successful");
+
+    // 🔥 AUTO REDIRECT FIX
+    if (user.email === "admin@shopwithsr.com") {
+        window.location.href = "admin.html";
+    } else {
+        window.location.href = "products.html";
+    }
 }
 </script>
 
