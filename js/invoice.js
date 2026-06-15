@@ -1,3 +1,8 @@
+if (window.__invoiceLoaded) {
+    console.warn("Invoice script already loaded");
+} else {
+    window.__invoiceLoaded = true;
+}
 let order = JSON.parse(localStorage.getItem("lastOrder"));
 let box = document.getElementById("invoiceBox");
 
