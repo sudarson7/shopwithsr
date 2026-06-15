@@ -5,9 +5,10 @@ function cleanText(text) {
     return String(text || "")
         .replace(/&amp;/g, "and")
         .replace(/&/g, "and")
-        .replace(/₹/g, "Rs")
-        .replace(/</g, "")
-        .replace(/>/g, "");
+        .replace(/₹/g, "Rs ")
+        .replace(/[^\w\s.,/-]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
 }
 
 // 📄 SHOW INVOICE
@@ -18,15 +19,17 @@ if (!order) {
     let itemsList = "";
     let total = 0;
 
-    (order.items || []).forEach(i => {
+    (order.items || []).forEach((i) => {
 
+        let name = cleanText(i.name);
         let qty = i.qty || 1;
-        let price = Number(i.price) * qty;
+        let price = Number(i.price) || 0;
+        let subtotal = price * qty;
 
-        total += price;
+        total += subtotal;
 
         itemsList += `
-${cleanText(i.name)} - ₹${i.price} x ${qty} = ₹${price}
+${name} - Rs ${price} x ${qty} = Rs ${subtotal}
 `;
     });
 
@@ -40,8 +43,9 @@ ${cleanText(i.name)} - ₹${i.price} x ${qty} = ₹${price}
 
         <pre>Items:\n${itemsList}</pre>
 
-        <h2>Total: ₹${total}</h2>
+        <h2>Total: Rs ${total}</h2>
 
+        <button onclick="downloadPDF()">⬇ Download PDF</button>
     `;
 }
 
@@ -58,37 +62,40 @@ function downloadPDF() {
     const { jsPDF } = window.jspdf;
     let doc = new jsPDF();
 
+    doc.setFont("helvetica");
     doc.setFontSize(16);
     doc.text("INVOICE", 90, 10);
 
     doc.setFontSize(12);
 
-    doc.text(`Name: ${order.name}`, 10, 30);
-    doc.text(`Email: ${order.email}`, 10, 40);
-    doc.text(`Phone: ${order.phone}`, 10, 50);
-    doc.text(`Date: ${order.date}`, 10, 60);
+    doc.text(`Name: ${cleanText(order.name)}`, 10, 30);
+    doc.text(`Email: ${cleanText(order.email)}`, 10, 40);
+    doc.text(`Phone: ${cleanText(order.phone)}`, 10, 50);
+    doc.text(`Date: ${cleanText(order.date)}`, 10, 60);
 
     let y = 80;
     let total = 0;
 
     (order.items || []).forEach((item, i) => {
 
+        let name = cleanText(item.name);
         let qty = item.qty || 1;
-        let price = Number(item.price) * qty;
+        let price = Number(item.price) || 0;
+        let subtotal = price * qty;
 
-        total += price;
+        total += subtotal;
 
         doc.text(
-    `${i + 1}. ${cleanText(item.name)} - Rs ${item.price} x ${qty} = Rs ${price}`,
-    10,
-    y
-);
+            `${i + 1}. ${name} - Rs ${price} x ${qty} = Rs ${subtotal}`,
+            10,
+            y
+        );
 
         y += 10;
     });
 
     y += 10;
-    doc.text(`Total: Rs${total}`, 10, y);
+    doc.text(`Total: Rs ${total}`, 10, y);
 
     doc.save("invoice.pdf");
 }
